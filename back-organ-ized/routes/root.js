@@ -5,16 +5,6 @@ import { Organ } from '../database.js';
 import { User } from '../database.js'; 
 
 export default  async function(fastify, opts){
-	fastify.get('/', async function (request, reply){
-		return {
-			working: true
-		}
-	});
-
-	fastify.get('/list', async function (request, reply){
-		return await Organ.findAll();
-	});
-
 	fastify.post('/organ/add', async function (request, reply){
 		if(request.body &&
 			request.body.name &&
@@ -41,13 +31,16 @@ export default  async function(fastify, opts){
 		}});
 	});
 
-	fastify.get('/organ/query', async function (request, reply){
+	fastify.get('/organ', async function (request, reply){
 		if(request.query && request.query.name){
 			return await Organ.findAll({where: {
 				name: {
 					[Op.substring]:request.query.name
 				}
 			}});
+		}
+		else {
+			return await Organ.findAll();
 		}
 	});
 }
