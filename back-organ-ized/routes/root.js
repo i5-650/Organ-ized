@@ -1,4 +1,5 @@
 'use strict'
+import { Op } from 'sequelize';
 import '../database.js';
 import { Organ } from '../database.js';
 import { User } from '../database.js'; 
@@ -32,6 +33,22 @@ export default  async function(fastify, opts){
 			else {
 				return {error: 'bad data'};
 			}
+	});
+
+	fastify.get('/organ/:id', async function (request, reply){
+		return await Organ.findOne({where: {
+			id: request.params.id
+		}});
+	});
+
+	fastify.get('/organ/query', async function (request, reply){
+		if(request.query && request.query.name){
+			return await Organ.findAll({where: {
+				name: {
+					[Op.substring]:request.query.name
+				}
+			}});
+		}
 	});
 }
 
