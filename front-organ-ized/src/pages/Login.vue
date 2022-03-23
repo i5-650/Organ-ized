@@ -1,3 +1,30 @@
+<script>
+import { axios } from 'axios';
+
+export default {
+	name: 'Organ-ized',
+
+	data: () => (
+		{
+			info: 'Organ-ized',
+			url: "http://localhost:3001/login"
+		}
+	),
+
+	methods: {
+		async login(){
+			await axios.post(url)
+		}
+	},
+
+	computed: {
+
+	}
+}
+
+</script>
+
+
 <template>
     <div class="limiter">
         <div class="container-login100">
