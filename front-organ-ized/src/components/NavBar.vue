@@ -5,7 +5,7 @@
         mode="horizontal"
         @select="handleSelect"
     >
-        <img src="src/assets/logo.png" id="icon">
+        <img src="src/assets/hearth.png" id="icon">
         <el-menu-item index="1" id="acceuilPage"><router-link to="/">Acceuil</router-link></el-menu-item>
         <el-menu-item index="2" id="collectionPage">Collection</el-menu-item>
         <el-menu-item index="3" id="loginPage"><router-link to="/login">Connexion</router-link></el-menu-item>
@@ -29,7 +29,6 @@ const handleSelect = (key: string, keyPath: string[]) => {
 a{
     text-decoration: none;
 }
-
 
 #loginPage{
     position: absolute;
