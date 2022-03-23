@@ -3,12 +3,12 @@
         <div class="container-login100">
             <div class="wrap-login100">
                 <div class="login100-pic js-tilt" data-tilt>
-                    <img src="images/img-01.png" alt="IMG">
+                    <img src="../assets/logo.png" alt="IMG">
                 </div>
 
                 <form class="login100-form validate-form">
 					<span class="login100-form-title">
-						Member Login
+						Admin Login
 					</span>
 
                     <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
@@ -32,22 +32,6 @@
                             Login
                         </button>
                     </div>
-
-                    <div class="text-center p-t-12">
-						<span class="txt1">
-							Forgot
-						</span>
-                        <a class="txt2" href="#">
-                            Username / Password?
-                        </a>
-                    </div>
-
-                    <div class="text-center p-t-136">
-                        <a class="txt2" href="#">
-                            Create your Account
-                            <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-                        </a>
-                    </div>
                 </form>
             </div>
         </div>
@@ -70,7 +54,7 @@ body, html {
 }
 
 /*---------------------------------------------*/
-a {
+limiter a {
     font-family: Avenir, Helvetica, Arial, sans-serif;    font-size: 14px;
     line-height: 1.7;
     color: #666666;
@@ -193,10 +177,10 @@ iframe {
     align-items: center;
     padding: 15px;
     background: #9053c7;
-    background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
-    background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
-    background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
-    background: linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -webkit-linear-gradient(-135deg, #41B883, #35495E);
+    background: -o-linear-gradient(-135deg, #41B883, #35495E);
+    background: -moz-linear-gradient(-135deg, #41B883, #35495E);
+    background: linear-gradient(-135deg, #41B883, #35495E);
 }
 
 .wrap-login100 {
@@ -280,7 +264,7 @@ iframe {
     width: 100%;
     height: 100%;
     box-shadow: 0px 0px 0px 0px;
-    color: rgba(87,184,70, 0.8);
+    color: #41B883;
 }
 
 .input100:focus + .focus-input100 {
@@ -328,7 +312,7 @@ iframe {
 }
 
 .input100:focus + .focus-input100 + .symbol-input100 {
-    color: #57b846;
+    color: #41B883;
     padding-left: 28px;
 }
 
@@ -356,7 +340,7 @@ iframe {
     width: 100%;
     height: 50px;
     border-radius: 25px;
-    background: #57b846;
+    background: #41B883;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
