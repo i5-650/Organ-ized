@@ -30,7 +30,7 @@ export default {
         <div class="container-login100">
             <div class="wrap-login100">
                 <div class="login100-pic js-tilt" data-tilt>
-                    <img src="../assets/logo.png" alt="IMG">
+                    <img src="../assets/hearth.png" alt="IMG">
                 </div>
 
                 <form class="login100-form validate-form">
@@ -223,7 +223,7 @@ iframe {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 177px 130px 33px 95px;
+    padding: 80px 130px 33px 95px;
 }
 
 /*------------------------------------------------------------------
