@@ -16,4 +16,12 @@ import NavBar from "./components/NavBar.vue";
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+
+body{
+    background: -webkit-linear-gradient(-135deg, #41B883, #35495E);
+    background: -o-linear-gradient(-135deg, #41B883, #35495E);
+    background: -moz-linear-gradient(-135deg, #41B883, #35495E);
+    background: linear-gradient(-135deg, #41B883, #35495E);
+    background-attachment: fixed;
+}
 </style>
