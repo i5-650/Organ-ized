@@ -30,6 +30,7 @@ a{
     text-decoration: none;
 }
 
+
 #loginPage{
     position: absolute;
     right: 0;
