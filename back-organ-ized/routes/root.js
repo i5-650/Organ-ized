@@ -43,6 +43,10 @@ export default  async function(fastify, opts){
 			return await Organ.findAll();
 		}
 	});
+
+	fastify.post('/organ/edit', async function (request, reply){
+		if(request.body){}
+	});
 }
 
 
