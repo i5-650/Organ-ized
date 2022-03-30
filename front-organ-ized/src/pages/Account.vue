@@ -59,6 +59,7 @@ import {
     Delete,
 } from '@element-plus/icons-vue'
 import {ref} from "vue";
+import {axios} from "axios";
 
 export default {
     name: "Account",
@@ -69,13 +70,21 @@ export default {
         Star,
         Delete,
         options,
-        value}),
+        value,
+        organTab:[]}),
     components:{Search,
         Edit,
         Check,
         Message,
         Star,
         Delete},
+    methods:{
+      async mounted(){
+          let tab = await axios.get('http://[::1]:3001/organ');
+          this.organTab = tab.data.map(item =>{name:item.name});
+          console.log(this.organTab);
+      },
+    },
 }
 
 const value = ref([])
