@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('mysql://user:password@127.0.0.1:3306/db')
+const sequelize = new Sequelize('mysql://root@127.0.0.1:3306/db')
 try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');
