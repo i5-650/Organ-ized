@@ -29,6 +29,10 @@ export const Organ = sequelize.define('Organ',
 		icon: {
 			type: DataTypes.STRING,
 			allowNull: true
+		},
+		categorie: {
+			type: DataTypes.STRING,
+			allowNull: false
 		}
 	}
 );
@@ -54,5 +58,5 @@ export const User = sequelize.define('User',
 	}
 );
 
-Organ.sync();
-User.sync();
+Organ.sync({force: true});
+User.sync({force: true});
