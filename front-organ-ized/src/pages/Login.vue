@@ -62,7 +62,6 @@ export default {
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
                     </div>
-''
                     <div class="container-login100-form-btn">
                         <button class="login100-form-btn">
                             Login
