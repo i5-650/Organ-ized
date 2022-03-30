@@ -9,6 +9,7 @@
         <el-menu-item index="1" id="acceuilPage"><router-link to="/">Acceuil</router-link></el-menu-item>
         <el-menu-item index="2" id="collectionPage"><router-link to="/test">Collection</router-link></el-menu-item>
         <el-menu-item index="3" id="loginPage"><router-link :to="url">{{label}}</router-link></el-menu-item>
+        <el-menu-item index="4" id="registerPage"><router-link to='/register'>Register</router-link></el-menu-item>
     </el-menu>
 </template>
 
