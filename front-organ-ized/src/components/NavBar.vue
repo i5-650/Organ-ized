@@ -7,17 +7,41 @@
     >
         <router-link to="/"><img src="src/assets/hearth.png" id="icon"></router-link>
         <el-menu-item index="1" id="acceuilPage"><router-link to="/">Acceuil</router-link></el-menu-item>
-        <el-menu-item index="2" id="collectionPage"><router-link to="/account">Collection</router-link></el-menu-item>
-        <el-menu-item index="3" id="loginPage"><router-link to="/login">Connexion</router-link></el-menu-item>
+        <el-menu-item index="2" id="collectionPage"><router-link to="/test">Collection</router-link></el-menu-item>
+        <el-menu-item index="3" id="loginPage"><router-link :to="url">{{label}}</router-link></el-menu-item>
     </el-menu>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import { ref } from 'vue'
+import {Check, Delete, Edit, Message, Search, Star} from "@element-plus/icons-vue";
 
-const activeIndex = ref('1')
-const handleSelect = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath)
+export default {
+    data:()=>({
+        url: "/login",
+        label:"Connexion"
+    }),
+    methods:{
+        loginCheck(){
+            if(localStorage.getItem("token")){
+                this.url="/account";
+                this.label="Espace Perso";
+            }else{
+                this.url="/login";
+                this.label="Connexion";
+            }
+        }
+    },
+    computed:{
+        urlGet(){
+            return this.$route.path;
+        }
+    },
+    watch: {
+        urlGet() {
+            this.loginCheck();
+        }
+    }
 }
 </script>
 
