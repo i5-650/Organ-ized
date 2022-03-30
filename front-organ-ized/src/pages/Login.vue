@@ -1,19 +1,28 @@
 <script>
-import { axios } from 'axios';
-
+import axios from 'axios';
+import { router } from '../routes';
 export default {
 	name: 'Organ-ized',
 
 	data: () => (
 		{
 			info: 'Organ-ized',
-			url: "http://localhost:3001/login"
+			url: "http://localhost:3001/login",
+      mail: "",
+      passwd: ""
 		}
 	),
 
 	methods: {
 		async login(){
-			await axios.post(url)
+			let a = await axios.post(this.url, 
+        {
+          email: this.mail,
+          password: this.passwd
+        }
+      );
+      localStorage.setItem("token", a.data.token);
+      this.$router.push('/');
 		}
 	},
 
@@ -33,13 +42,13 @@ export default {
                     <img src="../assets/hearth.png" alt="IMG">
                 </div>
 
-                <form class="login100-form validate-form">
+                <form @submit.prevent="login" class="login100-form validate-form">
 					<span class="login100-form-title">
 						Admin Login
 					</span>
 
                     <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-                        <input class="input100" type="text" name="email" placeholder="Email">
+                        <input v-model="mail" class="input100" type="text" name="email" placeholder="Email">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
@@ -47,13 +56,13 @@ export default {
                     </div>
 
                     <div class="wrap-input100 validate-input" data-validate = "Password is required">
-                        <input class="input100" type="password" name="pass" placeholder="Password">
+                        <input v-model="passwd" class="input100" type="password" name="pass" placeholder="Password">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
                     </div>
-
+''
                     <div class="container-login100-form-btn">
                         <button class="login100-form-btn">
                             Login

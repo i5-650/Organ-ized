@@ -69,6 +69,7 @@ export default  async function(fastify, opts){
 					process.env.TOKEN_KEY,
 					{expiresIn: "5h"}
 				);
+				
 
 				response.code(200).send(
 					{
@@ -89,12 +90,14 @@ export default  async function(fastify, opts){
 		return await User.findAll();
 	});
 
-	fastify.post('/organ/add', async function (request, reply){
+	fastify.post('/organ/add', async function (request, reply,){
 		if(request.body &&
 			request.body.name &&
 			request.body.price &&
 			request.body.state &&
-			request.body.age){
+			request.body.age &&
+			request.headers.Authorization){
+				jwt.verify(request.headers.Authorization, process.env.TOKEN_KEY)
 				await Organ.create({
 					name: request.body.name,
 					price: request.body.price,
