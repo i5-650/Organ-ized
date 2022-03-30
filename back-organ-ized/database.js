@@ -32,7 +32,7 @@ export const Organ = sequelize.define('Organ',
 		},
 		categorie: {
 			type: DataTypes.STRING,
-			allowNull: false
+			allowNull: true
 		}
 	}
 );
