@@ -6,8 +6,8 @@
         @select="handleSelect"
     >
         <img src="src/assets/hearth.png" id="icon">
-        <el-menu-item index="1" id="acceuilPage"><router-link to="/">Acceuil</router-link></el-menu-item>
-        <el-menu-item index="2" id="collectionPage">Collection</el-menu-item>
+        <el-menu-item index="1" id="acceuilPage"><router-link to="/">Accueil</router-link></el-menu-item>
+        <el-menu-item index="2" id="collectionPage"><router-link to="/collection">Collection</router-link></el-menu-item>
         <el-menu-item index="3" id="loginPage"><router-link to="/login">Connexion</router-link></el-menu-item>
     </el-menu>
 </template>
