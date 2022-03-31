@@ -8,8 +8,8 @@ export default {
 		{
 			info: 'Organ-ized',
 			url: "http://localhost:3001/login",
-      mail: "",
-      passwd: ""
+      		mail: "",
+      		passwd: ""
 		}
 	),
 
