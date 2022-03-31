@@ -15,13 +15,9 @@
                         <p class="input100">Email</p>
                     </div>
 
-                    <div class="wrap-password" data-validate = "Password is required">
-                        <p class="input100">Password</p>
-                    </div>
-
                     <div class="container-login100-form-btn">
-                        <button class="login100-form-btn">
-                            Modifier
+                        <button class="login100-form-btn-unlog">
+                            Déconnexion
                         </button>
                     </div>
                 </form>
@@ -42,6 +38,44 @@
                     <div class="container-login100-form-btn">
                         <el-button type="primary" :icon="Edit" circle />
                         <el-button type="danger" :icon="Delete" circle />
+                        <el-button type="primary" :icon="Refresh" circle id="buttonRefresh" @click="getCollection" />
+                    </div>
+                </form>
+            </div>
+
+            <div class="wrap-login100" id="part3">
+                <form @submit.prevent="add" class="addToCollection">
+					<span class="login100-form-title">
+						Ajouter un élément à la collection
+					</span>
+
+                    <div class="wrap-name" data-validate = "Un nom est obligatoire">
+                        <input v-model="name" class="input1000" type="text" name="Nom" placeholder="Nom">
+                    </div>
+
+                    <div class="wrap-price" data-validate = "Price is required">
+                        <input v-model="price" class="input1000" type="number" name="Prix" placeholder="Prix en $">
+                    </div>
+
+                    <div class="wrap-age" data-validate = "Age is required">
+                        <input v-model="age" class="input1000" type="number" name="Age" placeholder="Age du donneur">
+                    </div>
+
+                    <div class="wrap-categorie" data-validate = "Age is required">
+                        <input v-model="categorie" class="input1000" type="text" name="Categorie" placeholder="Categorie">
+                    </div>
+
+                    <div class="wrap-etat" data-validate = "l'état est requis">
+                        <input v-model="state" class="input1000" type="text" name="Etat" placeholder="Etat">
+                    </div>
+
+                    <div class="wrap-icon" data-validate = "Age is required">
+                        <label for="file" class="label-file">Choisir une image</label>
+                        <input id="file" class="input-file" type="file">
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <el-button type="success" :icon="Check" circle  id="buttonAdd"  native-type="submit"/>
                     </div>
                 </form>
             </div>
@@ -57,9 +91,11 @@ import {
     Message,
     Star,
     Delete,
+    Upload,
+    Refresh,
 } from '@element-plus/icons-vue'
 import {ref} from "vue";
-import {axios} from "axios";
+import axios from "axios";
 
 export default {
     name: "Account",
@@ -69,6 +105,8 @@ export default {
         Message,
         Star,
         Delete,
+        Upload,
+        Refresh,
         options,
         value,
         organTab:[]}),
@@ -77,34 +115,33 @@ export default {
         Check,
         Message,
         Star,
-        Delete},
+        Delete,
+        Refresh},
     methods:{
-      async mounted(){
-          let tab = await axios.get('http://[::1]:3001/organ');
-          this.organTab = tab.data.map(item =>{name:item.name});
+      async getCollection(){
+          this.options = [];
+          let tab = await axios.get('http://localhost:3001/organ');
+          this.organTab = tab.data.map(item =>({name:item.name}));
           console.log(this.organTab);
+          for(let i=0;i<this.organTab.length;i++){
+              this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
+          }
       },
+        async add(){
+            await axios.post('http://localhost:3001/organ/add', {
+                name: this.name,
+                price: this.price,
+                state:this.state,
+                age:this.age,
+                categorie:this.categorie,
+            })
+        },
     },
 }
 
 const value = ref([])
 
-const options = [
-    {
-        value:"Test",
-        label:"Catégorie",
-        children: [
-            {
-              value:"Tete",
-              label:"Cerveau",
-            },
-            {
-                value:"Ventre",
-                label: "Mateo tu tournes",
-            },
-        ],
-    },
-]
+const options = []
 </script>
 
 <style scoped>
@@ -121,9 +158,129 @@ const options = [
     margin-bottom: 0.5em;
 }
 
+.wrap-etat{
+    text-align: center;
+    vertical-align: auto;
+    margin-bottom: 0.5em;
+}
+
 .wrap-cascader{
     text-align: center;
     vertical-align: auto;
+}
+
+.wrap-name{
+    text-align: center;
+    vertical-align: auto;
+    margin-bottom: 1em;
+}
+
+.wrap-price{
+    text-align: center;
+    vertical-align: auto;
+    margin-bottom: 1em;
+}
+
+.wrap-age{
+    text-align: center;
+    vertical-align: auto;
+    margin-bottom: 1em;
+}
+
+.wrap-icon{
+    text-align: center;
+    vertical-align: auto;
+    margin-bottom: 1em;
+}
+
+.wrap-icon{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    vertical-align: auto;
+    margin-bottom: 1em;
+    width: 15em;
+    border-radius: 10px;
+    background: #41B883;
+}
+
+.wrap-categorie{
+    text-align: center;
+    vertical-align: auto;
+    margin-bottom: 1em;
+}
+
+.wrap-etat{
+    text-align: center;
+    vertical-align: auto;
+    margin-bottom: 1em;
+}
+
+.label-file {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-size: 1.3em;
+    line-height: 1.5;
+    cursor: pointer;
+    color: white;
+}
+.label-file:hover {
+    color: white;
+}
+
+.input-file {
+       display: none;
+   }
+
+#buttonRefresh{
+    background: #409EFF;
+}
+
+#buttonAdd{
+    background: #41B883;
+}
+
+.input1000 {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #666666;
+
+    display: block;
+    width: 100%;
+    background: #e6e6e6;
+    height: 50px;
+    border-radius: 25px;
+    padding: 0 30px 0 68px;
+}
+
+.login100-form-btn-unlog {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+    text-transform: uppercase;
+
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    background: #DF474B;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px;
+
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.login100-form-btn-unlog:hover {
+    background: #333333;
 }
 
 p.input100{
@@ -146,6 +303,14 @@ p.input100{
 
 #part2{
     margin-bottom: 2em;
+}
+
+#part3{
+    margin-bottom: 2em;
+}
+
+#part3.wrap-login100{
+    justify-content: center;
 }
 
 </style>
