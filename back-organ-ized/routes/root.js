@@ -95,9 +95,7 @@ export default  async function(fastify, opts){
 			request.body.name &&
 			request.body.price &&
 			request.body.state &&
-			request.body.age &&
-			request.headers.Authorization){
-				jwt.verify(request.headers.Authorization, process.env.TOKEN_KEY)
+			request.body.age ){
 				await Organ.create({
 					name: request.body.name,
 					price: request.body.price,
