@@ -110,7 +110,13 @@ export default {
         Refresh,
         options,
         value,
-        organTab:[]}),
+        organTab:[],
+		name:"",
+		price: "",
+		age: "",
+		categorie:"",
+		state: ""
+		}),
     components:{Search,
         Edit,
         Check,
@@ -139,7 +145,11 @@ export default {
 		ElMessageBox.alert('Organ added', 'Success', {
     		confirmButtonText: 'Ok',
   		});
-		this.$router.push('/');
+		this.name = "";
+		this.price = "";
+		this.age = "";
+		this.categorie = "";
+		this.state = "";
        },
     },
 	async beforeMount(){          
