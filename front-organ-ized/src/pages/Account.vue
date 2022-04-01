@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="wrap-price" data-validate = "Price is required">
-                        <input v-model="price" class="input1000" type="number" name="Prix" placeholder="Prix en $">
+                        <input v-model="price" class="input1000" type="number" name="Prix" placeholder="Prix en €">
                     </div>
 
                     <div class="wrap-age" data-validate = "Age is required">
