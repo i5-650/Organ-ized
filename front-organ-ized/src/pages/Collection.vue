@@ -1,3 +1,66 @@
+<script lang="ts">
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { ref } from 'vue';
+import axios from 'axios';
+export default {
+	name: 'Organ-ized',
+
+	data: () => (
+		{
+			info: 'Organèized',
+			organList: [],
+			url: "http://localhost:3001/organ",
+			prix: [0, 100],
+			checkboxSelectionCategories: ['Vesicule biliaire','Cerveau','Poumon','Foie','Gros Intestin','Apendicite','Vessie','Muscle','Rein','Ratte','Coeur'],
+			openAside: false
+		}
+	),
+
+	methods: {
+		async getCollection(){
+			if(localStorage.getItem("token")){
+				let db = await axios.get(this.url);
+				this.organList = db.data;
+				console.log("MAIS NON: " + this.organList[0]);
+			}
+			else {
+				this.$router.push('/');
+			}
+		},
+		open(){
+			ElMessageBox.alert('This is a message', 'Title', {
+    			confirmButtonText: 'Proposer un prix',
+  			});
+		},
+		setOpenAside(){
+			this.openAside = !this.openAside;
+		}
+	},
+
+	async beforeMount(){
+		if(localStorage.getItem("token")){
+			let db = await axios.get(this.url);
+			this.organList = db.data;
+			//console.log("MAIS NON: " + this.organList[0].name);
+		}
+		else {
+			this.$router.push('/');
+		}
+	},
+
+	computed: {
+		async tmp(){
+			await this.getCollection();
+		}
+	},
+
+	watch: {
+		async getCollection(){
+			await this.getCollection();
+		}
+	}
+}
+</script>
 <template>	
 	<el-container>
         <el-aside v-if="openAside" width="20%">
@@ -26,28 +89,28 @@
             <h2>Prix (en milliers d'€) </h2>
             <br/>
             <div class="slider-demo-block">
-                <el-slider v-model="prix" range show-stops :max="100" />
+            	<el-slider v-model="prix" range show-stops :max="100" />
             </div>
         </el-aside>
         <el-main>
-            <el-button @click="setOpenAside " >Nav</el-button>
+            <el-button @click="setOpenAside">Nav</el-button>
             <!--<p>Checked categories: <pre>{{ checkedCategories }}</pre></p>-->
             <el-row>
-                <el-col @click="open" v-for="(o, index) in 25"
-                    :key="o"
+                <el-col @click="open" v-for="index in organList.length"
+                    :key="index"
                     :span="8"
-                    :offset="index > 0 ? 25 : 0"
+                    :offset="index > 0 ? organList.length : 0"
                 >
                     <el-card :body-style="{ padding: '0px' }" style="margin:25px">
                         <img src="src/assets/hearth.png" class="image"/>
                         <div style="padding: 14%">
                             <el-row>
-                                <el-col :span="19"><span>nom</span></el-col>
-                                <el-col :span="5"><span>prix</span></el-col>
+                                <el-col :span="19"><span>{{organList[index].name}}</span></el-col>
+                                <el-col :span="5"><span>{{organList[index].name}} €</span></el-col>
                             </el-row>
                             <div class="bottom">
                                 <el-row>
-                                    <el-col :span="19"><span class="grid-content bg-purple-dark">Etat</span></el-col>
+                                    <el-col :span="19"><span class="grid-content bg-purple-dark">Etat: {{this.organList[index].state}}</span></el-col>
                                     <el-col :span="5"><el-button type="text" class="button">Voir plus ➔ </el-button></el-col>
                                 </el-row>
                             </div>
@@ -58,26 +121,6 @@
         </el-main>
     </el-container>
 </template>
-<script lang="ts" setup>
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { ref } from 'vue'
-
-const openAside= ref(false)
-
-const open = () => {
-  ElMessageBox.alert('This is a message', 'Title', {
-    confirmButtonText: 'Proposer un prix',
-  })
-}
-
-const setOpenAside = () => {
-    openAside.value = !openAside.value;
-} 
-
-const checkboxSelectionCategories = ref(['Vesicule biliaire','Cerveau','Poumon','Foie','Gros Intestin','Apendicite','Vessie','Muscle','Rein','Ratte','Coeur'])
-const prix = ref([0, 100])
-
-</script>
 <style>
 
     .checkboxCategory{
@@ -92,6 +135,7 @@ const prix = ref([0, 100])
     .slider-demo-block .el-slider {
     margin-top: 0;
     margin-left: 12px;
+	width: 90%;
     }
 
 </style>
