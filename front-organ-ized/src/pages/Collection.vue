@@ -24,7 +24,9 @@ export default {
 				console.log("MAIS NON: " + this.organList[0]);
 			}
 			else {
-				this.$router.push('/');
+				ElMessageBox.alert('You need to be logged', 'Can\'t access collection', 
+				{confirmButtonText: 'Go to login page'});
+				this.$router.push('/login');
 			}
 		},
 		open(){
@@ -44,7 +46,9 @@ export default {
 			//console.log("MAIS NON: " + this.organList[0].name);
 		}
 		else {
-			this.$router.push('/');
+			ElMessageBox.alert('You need to be logged', 'Can\'t access collection', 
+			{confirmButtonText: 'Go to login page'});
+			this.$router.push('/login');
 		}
 	},
 

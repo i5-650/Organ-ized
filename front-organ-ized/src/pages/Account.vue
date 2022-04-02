@@ -125,16 +125,16 @@ export default {
         Delete,
         Refresh},
     methods:{
-      async getCollection(){
-          this.options = [];
-          let tab = await axios.get('http://localhost:3001/organ');
-          this.organTab = tab.data.map(item =>({name:item.name}));
-          console.log(this.organTab);
-          for(let i=0;i<this.organTab.length;i++){
-              this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
-          }
-      },	  
-    async add(){
+    	async getCollection(){
+        	this.options = [];
+        	let tab = await axios.get('http://localhost:3001/organ');
+        	this.organTab = tab.data.map(item =>({name:item.name}));
+        	console.log(this.organTab);
+        	for(let i=0;i<this.organTab.length;i++){
+            	this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
+        	}
+    	},	  
+    	async add(){
            await axios.post('http://localhost:3001/organ/add', {
                name: this.name,
                price: this.price,
