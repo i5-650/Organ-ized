@@ -142,14 +142,17 @@ export default {
                age:this.age,
                categorie:this.categorie,
            });
-		ElMessageBox.alert('Organ added', 'Success', {
-    		confirmButtonText: 'Ok',
-  		});
-		this.name = "";
-		this.price = "";
-		this.age = "";
-		this.categorie = "";
-		this.state = "";
+
+			ElMessageBox.alert('Organ added', 'Success', {
+    			confirmButtonText: 'Ok',
+  			});
+			
+            this.options.push({name:this.name,label:this.name});
+			this.name = "";
+			this.price = "";
+			this.age = "";
+			this.categorie = "";
+			this.state = "";
        },
     },
 	async beforeMount(){          
