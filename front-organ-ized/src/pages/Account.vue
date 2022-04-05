@@ -96,6 +96,7 @@ import {
 } from '@element-plus/icons-vue'
 import {ref} from "vue";
 import axios from "axios";
+import { ElMessageBox } from 'element-plus';
 
 export default {
     name: "Account",
@@ -109,7 +110,13 @@ export default {
         Refresh,
         options,
         value,
-        organTab:[]}),
+        organTab:[],
+		name:"",
+		price: "",
+		age: "",
+		categorie:"",
+		state: ""
+		}),
     components:{Search,
         Edit,
         Check,
@@ -118,25 +125,42 @@ export default {
         Delete,
         Refresh},
     methods:{
-      async getCollection(){
-          this.options = [];
-          let tab = await axios.get('http://localhost:3001/organ');
-          this.organTab = tab.data.map(item =>({name:item.name}));
-          console.log(this.organTab);
-          for(let i=0;i<this.organTab.length;i++){
-              this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
-          }
-      },
-        async add(){
-            await axios.post('http://localhost:3001/organ/add', {
-                name: this.name,
-                price: this.price,
-                state:this.state,
-                age:this.age,
-                categorie:this.categorie,
-            })
-        },
+    	async getCollection(){
+        	this.options = [];
+        	let tab = await axios.get('http://localhost:3001/organ');
+        	this.organTab = tab.data.map(item =>({name:item.name}));
+        	console.log(this.organTab);
+        	for(let i=0;i<this.organTab.length;i++){
+            	this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
+        	}
+    	},	  
+    	async add(){
+           await axios.post('http://localhost:3001/organ/add', {
+               name: this.name,
+               price: this.price,
+               state:this.state,
+               age:this.age,
+               categorie:this.categorie,
+           });
+		ElMessageBox.alert('Organ added', 'Success', {
+    		confirmButtonText: 'Ok',
+  		});
+		this.name = "";
+		this.price = "";
+		this.age = "";
+		this.categorie = "";
+		this.state = "";
+       },
     },
+	async beforeMount(){          
+		this.options = [];
+        let tab = await axios.get('http://localhost:3001/organ');
+        this.organTab = tab.data.map(item =>({name:item.name}));
+        console.log(this.organTab);
+        for(let i=0;i<this.organTab.length;i++){
+            this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
+        }
+	}
 }
 
 const value = ref([])
