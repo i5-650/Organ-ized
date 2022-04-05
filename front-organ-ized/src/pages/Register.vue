@@ -25,8 +25,14 @@ export default {
           password: this.passwd
         }
       );
-      localStorage.setItem("token", a.data.token);
-      this.$router.push('/');
+      if(!a.data){
+        alert("Wrong credentials");
+      }
+      else {
+        localStorage.setItem("name", a.data.firstname);
+        localStorage.setItem("token", a.data.token);
+        this.$router.push('/');
+      }
 		}
 	},
 
