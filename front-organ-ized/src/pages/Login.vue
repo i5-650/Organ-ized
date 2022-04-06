@@ -27,6 +27,7 @@ export default {
       else {
         localStorage.setItem("name", a.data.firstname);
         localStorage.setItem("token", a.data.token);
+        localStorage.setItem("email",a.data.email);
         this.$router.push('/');
       }
 		}
