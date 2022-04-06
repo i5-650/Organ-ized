@@ -32,6 +32,7 @@
                         <el-cascader
                             v-model="value"
                             :options="options"
+                            @focus="focusElement"
                         />
                     </div>
 
@@ -108,8 +109,8 @@ export default {
         Delete,
         Upload,
         Refresh,
-        options,
-        value,
+        options:[],
+        value:"",
         organTab:[],
 		name:"",
 		price: "",
@@ -128,13 +129,16 @@ export default {
         async getCollection() {
             this.options = [];
             let tab = await axios.get('http://localhost:3001/organ');
-            this.organTab = tab.data.map(item => ({name: item.name}));
+            this.organTab = tab.data.map(item => ({name: item.name,id: item.id}));
             console.log(this.organTab);
             for (let i = 0; i < this.organTab.length; i++) {
-                this.options.push({name: this.organTab.at(i).name, label: this.organTab.at(i).name});
+                this.options.push({value: this.organTab.at(i).id, label: this.organTab.at(i).name});
             }
+            console.log(this.options);
         },
         async deleteItem(){
+
+            console.log(this.value);
         },
     	async add(){
            await axios.post('http://localhost:3001/organ/add', {
@@ -152,6 +156,7 @@ export default {
 		this.age = "";
 		this.categorie = "";
 		this.state = "";
+        this.getCollection();
        },
     },
 	async beforeMount(){          
@@ -162,12 +167,9 @@ export default {
         for(let i=0;i<this.organTab.length;i++){
             this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
         }
-	}
+	},
 }
 
-const value = ref([])
-
-const options = []
 </script>
 
 <style scoped>
