@@ -132,6 +132,12 @@ export default  async function(fastify, opts){
 	fastify.post('/organ/edit', async function (request, reply){
 		if(request.body){}
 	});
+
+	fastify.post('/organ/delete/:id', async function (request, reply){
+		if(request.params.id && await Organ.findOne({where: { id: request.params.id}})){
+			Organ.destroy({where: {id: request.params.id}});
+		}
+	});
 }
 
 
