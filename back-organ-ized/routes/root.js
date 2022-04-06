@@ -129,13 +129,30 @@ export default  async function(fastify, opts){
 		}
 	});
 
-	fastify.post('/organ/edit', async function (request, reply){
-		if(request.body){}
+	fastify.post('/organ/edit/:id', async function (request, reply){
+		if(request.body &&
+			request.body.name &&
+			request.body.price &&
+			request.body.state &&
+			request.body.age){
+			Organ.update({
+				name:request.body.name,
+				price:request.body.price,
+				state:request.body.state,
+				age:request.body.age
+			},{where:{id:request.params.id}});
+			return {goodUpdate:true};
+		}else{
+			return {error:true};
+		}
 	});
 
 	fastify.post('/organ/delete/:id', async function (request, reply){
 		if(request.params.id && await Organ.findOne({where: { id: request.params.id}})){
 			Organ.destroy({where: {id: request.params.id}});
+			return {elementDestroy: true};
+		}else{
+			return {error: true};
 		}
 	});
 }

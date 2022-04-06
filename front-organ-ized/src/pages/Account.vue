@@ -12,7 +12,7 @@
 					</span>
 
                     <div class="wrap-email" data-validate = "Valid email is required: ex@abc.xyz">
-                        <p class="input100">Email</p>
+                        <p class="input100">{{this.emailLocal}}</p>
                     </div>
 
                     <div class="container-login100-form-btn">
@@ -32,16 +32,37 @@
                         <el-cascader
                             v-model="value"
                             :options="options"
-                            @focus="focusElement"
                         />
                     </div>
 
                     <div class="container-login100-form-btn">
-                        <el-button type="primary" :icon="Edit" circle />
+                        <el-button type="primary" :icon="Edit" circle @click="editItem"/>
                         <el-button type="danger" :icon="Delete" circle @click="deleteItem"/>
                         <el-button type="primary" :icon="Refresh" circle id="buttonRefresh" @click="getCollection" />
                     </div>
                 </form>
+                <aside>
+                    <div class="wrap-name" data-validate = "Un nom est obligatoire">
+                        <input v-model="nameE" class="input1000" type="text" name="Nom" placeholder="Nom">
+                    </div>
+
+                    <div class="wrap-price" data-validate = "Price is required">
+                        <input v-model="priceE" class="input1000" type="number" name="Prix" placeholder="Prix en €">
+                    </div>
+
+                    <div class="wrap-age" data-validate = "Age is required">
+                        <input v-model="ageE" class="input1000" type="number" name="Age" placeholder="Age du donneur">
+                    </div>
+
+                    <div class="wrap-etat" data-validate = "l'état est requis">
+                        <input v-model="stateE" class="input1000" type="text" name="Etat" placeholder="Etat">
+                    </div>
+
+                    <div id="buttonModify">
+                        <el-button type="primary" round @click="finishEdit">Modifier</el-button>
+                    </div>
+
+                </aside>
             </div>
 
             <div class="wrap-login100" id="part3">
@@ -117,7 +138,13 @@ export default {
 		age: "",
 		categorie:"",
 		state: "",
-		icon: ""
+		icon: "",
+        emailLocal:"",
+        nameE:"",
+        priceE:"",
+        ageE:"",
+        categorieE:"",
+        stateE:"",
 		}),
     components:{Search,
         Edit,
@@ -138,8 +165,12 @@ export default {
             console.log(this.options);
         },
         async deleteItem(){
-
+            await axios.post('http://localhost:3001/organ/delete/'+this.value);
             console.log(this.value);
+            this.getCollection();
+            ElMessageBox.alert('Organ Deleted', 'Success', {
+                confirmButtonText: 'Ok',
+            });
         },
     	async add(){
            await axios.post('http://localhost:3001/organ/add', {
@@ -161,8 +192,34 @@ export default {
 			this.icon = 0;
         this.getCollection();
        },
+        async editItem(){
+            console.log(this.value);
+            let editItem = await axios.get('http://localhost:3001/organ/'+this.value);
+            this.nameE =  editItem.data.name;
+            this.priceE = editItem.data.price;
+            this.ageE = editItem.data.age;
+            this.categorieE = editItem.data.categorie;
+            this.stateE = editItem.data.state;
+            console.log(editItem);
+        },
+        async finishEdit(){
+            await axios.post('http://localhost:3001/organ/edit/'+this.value,{
+                name: this.nameE,
+                price:this.priceE,
+                age:this.ageE,
+                state:this.stateE
+            });
+            this.getCollection();
+            this.nameE="";
+            this.ageE="";
+            this.priceE="";
+            this.stateE="";
+            ElMessageBox.alert('Organ Edited', 'Success', {
+                confirmButtonText: 'Ok',
+            });
+        }
     },
-	async beforeMount(){          
+	async beforeMount(){
 		this.options = [];
         let tab = await axios.get('http://localhost:3001/organ');
         this.organTab = tab.data.map(item =>({name:item.name}));
@@ -170,7 +227,9 @@ export default {
         for(let i=0;i<this.organTab.length;i++){
             this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
         }
+        this.emailLocal = localStorage.getItem("email");
 	},
+
 }
 
 </script>
@@ -264,6 +323,9 @@ export default {
 
 #buttonRefresh{
     background: #409EFF;
+}
+#buttonModify{
+    text-align: center;
 }
 
 #buttonAdd{
