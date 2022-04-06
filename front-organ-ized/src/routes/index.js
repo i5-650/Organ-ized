@@ -1,5 +1,6 @@
 import Home from '../pages/Home.vue'
 import Login from '../pages/Login.vue'
+import Collection from '../pages/Collection.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import Account from "../pages/Account.vue";
 import Register from '../pages/Register.vue';
