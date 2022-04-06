@@ -69,11 +69,13 @@
                         <input v-model="state" class="input1000" type="text" name="Etat" placeholder="Etat">
                     </div>
 
-                    <div class="wrap-icon" data-validate = "Age is required">
+                  	<div class="wrap-icon" data-validate = "Age is required">
                         <label for="file" class="label-file">Choisir une image</label>
-                        <input @change="getImage" id="file" class="input-file" type="file">
                     </div>
-
+					    <el-cascader
+                            v-model="value"
+                            :options="optionIcon"
+                        />
                     <div class="container-login100-form-btn">
                         <el-button type="success" :icon="Check" circle  id="buttonAdd"  native-type="submit"/>
                     </div>
@@ -109,6 +111,7 @@ export default {
         Upload,
         Refresh,
         options,
+		optionIcon: [],
         value,
         organTab:[],
 		name:"",
@@ -126,8 +129,23 @@ export default {
         Delete,
         Refresh},
     methods:{
-		getImage(file){
-			console.log("file: " + file);
+		async getImage(event){
+			//this.icon = Buffer.from(await event.target.value.text()).toString('base64'); 
+			//console.log('value: ' + await event.target.files.item(0).text());
+			let charCode;
+			let bytes = [];
+			let img = await event.target.files.item(0).text();
+			for(let i = 0; i < img.length; ++i){
+				charCode = img.charCodeAt(i);
+				bytes.push((charCode & 0xFF00)>>8);
+				bytes.push(charCode && 0xFF);
+			}
+			let bin = "";
+			bytes = new Uint8Array(bytes);
+			for(let i = 0; i < bytes.length; ++i){
+				bin += String.fromCharCode(bytes[i]);
+			}
+			console.log("oui: " + bin);
 		},
     	async getCollection(){
         	this.options = [];
@@ -145,9 +163,9 @@ export default {
                state:this.state,
                age:this.age,
                categorie:this.categorie,
-			   icon: btoa(this.icon)
+			   icon: this.icon
            });
-		   //console.log(btoa(this.icon));
+		   console.log(btoa(this.icon));
 
 			ElMessageBox.alert('Organ added', 'Success', {
     			confirmButtonText: 'Ok',
@@ -159,11 +177,21 @@ export default {
 			this.age = "";
 			this.categorie = "";
 			this.state = "";
-			this.icon = 0;
+			this.icon = "";
        },
     },
 	async beforeMount(){          
 		this.options = [];
+		this.optionIcon =  [
+			{label:'arm', value: 'arm.jpg'}, 
+			{label:'brain', value:"brain.png"}, 
+			{label:'hearth', value: "hearth.png"}, 
+			{label:'kidney', value: "kidney.jpg"},
+			{label:'leg', value: "leg.png"},
+			{label: 'liver', value:'live.jpg'}, 
+			{label:'stomach', value: 'stomach.png'},
+			{label:'default', value: 'default.jpg'}
+		];
         let tab = await axios.get('http://localhost:3001/organ');
         this.organTab = tab.data.map(item =>({name:item.name}));
         //console.log(this.organTab);
