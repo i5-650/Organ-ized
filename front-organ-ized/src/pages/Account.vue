@@ -72,7 +72,7 @@
 
                     <div class="wrap-icon" data-validate = "Age is required">
                         <label for="file" class="label-file">Choisir une image</label>
-                        <input id="file" class="input-file" type="file">
+                        <input @change="getImage" id="file" class="input-file" type="file">
                     </div>
 
                     <div class="container-login100-form-btn">
@@ -117,6 +117,7 @@ export default {
 		age: "",
 		categorie:"",
 		state: "",
+		icon: ""
 		}),
     components:{Search,
         Edit,
@@ -147,6 +148,7 @@ export default {
                state:this.state,
                age:this.age,
                categorie:this.categorie,
+			   icon: btoa(this.icon)
            });
 		ElMessageBox.alert('Organ added', 'Success', {
     		confirmButtonText: 'Ok',
@@ -156,6 +158,7 @@ export default {
 		this.age = "";
 		this.categorie = "";
 		this.state = "";
+			this.icon = 0;
         this.getCollection();
        },
     },
@@ -163,7 +166,7 @@ export default {
 		this.options = [];
         let tab = await axios.get('http://localhost:3001/organ');
         this.organTab = tab.data.map(item =>({name:item.name}));
-        console.log(this.organTab);
+        //console.log(this.organTab);
         for(let i=0;i<this.organTab.length;i++){
             this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
         }

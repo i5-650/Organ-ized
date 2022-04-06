@@ -7,7 +7,7 @@ export default {
 
 	data: () => (
 		{
-			info: 'Organèized',
+			info: 'Organ-ized',
 			organList: [],
 			url: "http://localhost:3001/organ",
 			prix: [0, 100],
@@ -21,7 +21,9 @@ export default {
 			if(localStorage.getItem("token")){
 				let db = await axios.get(this.url);
 				this.organList = db.data;
-				console.log("MAIS NON: " + this.organList[0]);
+				for(let i = 0; i < this.organList[i]; i++){
+					console.log(i + " -> " + this.organList[i].name);
+				}
 			}
 			else {
 				ElMessageBox.alert('You need to be logged', 'Can\'t access collection', 
@@ -100,7 +102,7 @@ export default {
             <el-button @click="setOpenAside">Nav</el-button>
             <!--<p>Checked categories: <pre>{{ checkedCategories }}</pre></p>-->
             <el-row>
-                <el-col @click="open" v-for="index in organList.length"
+                <el-col @click="open" v-for="(organ, index) in organList"
                     :key="index"
                     :span="8"
                     :offset="index > 0 ? organList.length : 0"
@@ -109,12 +111,12 @@ export default {
                         <img src="src/assets/hearth.png" class="image"/>
                         <div style="padding: 14%">
                             <el-row>
-                                <el-col :span="19"><span>{{organList[index].name}}</span></el-col>
-                                <el-col :span="5"><span>{{organList[index].price}} €</span></el-col>
+                                <el-col :span="19"><span>{{organ.name}}</span></el-col>
+                                <el-col :span="5"><span>{{organ.price}} €</span></el-col>
                             </el-row>
                             <div class="bottom">
                                 <el-row>
-                                    <el-col :span="19"><span class="grid-content bg-purple-dark">Etat: {{this.organList[index].state}}</span></el-col>
+                                    <el-col :span="19"><span class="grid-content bg-purple-dark">Etat: {{organ.state}}</span></el-col>
                                     <el-col :span="5"><el-button type="text" class="button">Voir plus ➔ </el-button></el-col>
                                 </el-row>
                             </div>
