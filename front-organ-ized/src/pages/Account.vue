@@ -37,7 +37,7 @@
 
                     <div class="container-login100-form-btn">
                         <el-button type="primary" :icon="Edit" circle />
-                        <el-button type="danger" :icon="Delete" circle />
+                        <el-button type="danger" :icon="Delete" circle @click="deleteItem"/>
                         <el-button type="primary" :icon="Refresh" circle id="buttonRefresh" @click="getCollection" />
                     </div>
                 </form>
@@ -115,7 +115,7 @@ export default {
 		price: "",
 		age: "",
 		categorie:"",
-		state: ""
+		state: "",
 		}),
     components:{Search,
         Edit,
@@ -124,16 +124,18 @@ export default {
         Star,
         Delete,
         Refresh},
-    methods:{
-    	async getCollection(){
-        	this.options = [];
-        	let tab = await axios.get('http://localhost:3001/organ');
-        	this.organTab = tab.data.map(item =>({name:item.name}));
-        	console.log(this.organTab);
-        	for(let i=0;i<this.organTab.length;i++){
-            	this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
-        	}
-    	},	  
+    methods: {
+        async getCollection() {
+            this.options = [];
+            let tab = await axios.get('http://localhost:3001/organ');
+            this.organTab = tab.data.map(item => ({name: item.name}));
+            console.log(this.organTab);
+            for (let i = 0; i < this.organTab.length; i++) {
+                this.options.push({name: this.organTab.at(i).name, label: this.organTab.at(i).name});
+            }
+        },
+        async deleteItem(){
+        },
     	async add(){
            await axios.post('http://localhost:3001/organ/add', {
                name: this.name,

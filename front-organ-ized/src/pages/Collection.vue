@@ -110,7 +110,7 @@ export default {
                         <div style="padding: 14%">
                             <el-row>
                                 <el-col :span="19"><span>{{organList[index].name}}</span></el-col>
-                                <el-col :span="5"><span>{{organList[index].name}} €</span></el-col>
+                                <el-col :span="5"><span>{{organList[index].price}} €</span></el-col>
                             </el-row>
                             <div class="bottom">
                                 <el-row>
