@@ -46,14 +46,15 @@
                                 <img src="src/assets/hearth.png" class="image"/>
                                 <div style="padding: 14%">
                                     <el-row>
-                                        <el-col :span="19"><span>nom</span></el-col>
-                                        <el-col :span="5"><span>prix</span></el-col>
+                                        <el-col :span="19"><span>Nom</span></el-col>
+                                        <el-col :span="5"><span>Prix</span></el-col>
                                     </el-row>
                                     <div class="bottom">
                                         <el-row>
                                             <el-col :span="19"><span class="grid-content bg-purple-dark">Etat</span></el-col>
                                             <el-col :span="5"><el-button type="text" class="button">Voir plus ➔ </el-button></el-col>
                                         </el-row>
+                                        <el-row>Catégorie</el-row>
                                     </div>
                                 </div>
                             </el-card>
@@ -66,14 +67,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 
 const openAside= ref(false)
 
 const open = () => {
-  ElMessageBox.alert('This is a message', 'Title', {
-    confirmButtonText: 'Proposer un prix',
+  ElMessageBox.prompt('Description de l\'organe, de son état et de son prix', 'Nom de l\'organe', {
+    confirmButtonText: 'Ok',
   })
 }
 
@@ -83,6 +84,7 @@ const setOpenAside = () => {
 
 const checkboxSelectionCategories = ref(['Vesicule biliaire','Cerveau','Poumon','Foie','Gros Intestin','Apendicite','Vessie','Muscle','Rein','Ratte','Coeur'])
 const prix = ref([0, 100])
+const organ = ref
 
 
 
