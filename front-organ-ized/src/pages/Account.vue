@@ -95,7 +95,7 @@
 						<label for="file" class="label-file">Choisir une image</label>
 					</div>
 						<el-cascader
-							v-model="value"
+							v-model="valueIcon"
 							:options="optionIcon"
 						/>
 					<div class="container-login100-form-btn">
@@ -132,9 +132,10 @@ export default {
 		Delete,
 		Upload,
 		Refresh,
-		options: "",
+		options: [],
 		optionIcon: [],
 		value: "",
+		valueIcon: "",
 		organTab:[],
 		name:"",
 		price: "",
@@ -193,37 +194,32 @@ export default {
 		},
 
 		async add(){
-			await axios.post('http://localhost:3001/organ/add', {
-				name: this.name,
-				price: this.price,
-				state:this.state,
-				age:this.age,
-				categorie:this.categorie,
-				icon: this.icon
-			});
-			console.log(btoa(this.icon));
+			if(this.name && this.price && this.state && this.age && this.categorie){
+				await axios.post('http://localhost:3001/organ/add', {
+					name: this.name,
+					price: this.price,
+					state:this.state,
+					age:this.age,
+					categorie:this.categorie,
+					icon: this.icon
+				});
 
-			ElMessageBox.alert('Organ added', 'Success', {
-				confirmButtonText: 'Ok',
-  			});
-			
-			this.options.push({name:this.name,label:this.name});
-			this.name = "";
-			this.price = "";
-			this.age = "";
-			this.categorie = "";
-			this.state = "";
-			this.icon = "";
-			ElMessageBox.alert('Organ added', 'Success', {
-				confirmButtonText: 'Ok',
-  			});
-			this.name = "";
-			this.price = "";
-			this.age = "";
-			this.categorie = "";
-			this.state = "";
-			this.icon = 0;
-			this.getCollection();
+				ElMessageBox.alert('Organ added', 'Success', {
+					confirmButtonText: 'Ok',
+				});
+				
+				this.options.push({name:this.name,label:this.name});
+				this.name = "";
+				this.price = "";
+				this.age = "";
+				this.categorie = "";
+				this.state = "";
+				this.icon = "";
+				this.getCollection();
+			}
+			else {
+				ElMessageBox.alert('You need to fill up all the infos', 'Error', {confirmButtonText: 'Ok'});
+			}
 		},
 
 		async editItem(){
@@ -254,14 +250,13 @@ export default {
 				});
 			},
 			async beforeMount(){
-				this.options = [];
-				this.optionIcon =  [
+				this.optionIcon = [
 					{label:'arm', value: 'arm.jpg'}, 
 					{label:'brain', value:"brain.png"}, 
 					{label:'hearth', value: "hearth.png"}, 
 					{label:'kidney', value: "kidney.jpg"},
 					{label:'leg', value: "leg.png"},
-					{label: 'liver', value:'live.jpg'}, 
+					{label:'liver', value:'live.jpg'}, 
 					{label:'stomach', value: 'stomach.png'},
 					{label:'default', value: 'default.jpg'}
 				];
