@@ -108,7 +108,7 @@ export default {
                     :offset="index > 0 ? organList.length : 0"
                 >
                     <el-card :body-style="{ padding: '0px' }" style="margin:25px">
-                        <img src="src/assets/hearth.png" class="image"/>
+                        <img :src="'src/assets/' + organ.icon" class="image"/>
                         <div style="padding: 14%">
                             <el-row>
                                 <el-col :span="19"><span>{{organ.name}}</span></el-col>

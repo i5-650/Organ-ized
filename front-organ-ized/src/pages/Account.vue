@@ -12,11 +12,11 @@
 					</span>
 
 					<div class="wrap-email" data-validate = "Valid email is required: ex@abc.xyz">
-						<p class="input100">{{this.emailLocal}}</p>
+						<p class="input100">{{this.lsName}}</p>
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn-unlog">
+						<button @click="logout" class="login100-form-btn-unlog">
 							Déconnexion
 						</button>
 					</div>
@@ -97,9 +97,10 @@
 						<el-cascader
 							v-model="valueIcon"
 							:options="optionIcon"
+							v-on:change="setIcon"
 						/>
 					<div class="container-login100-form-btn">
-						<el-button type="success" :icon="Check" circle  id="buttonAdd"  native-type="submit"/>
+						<el-button type="success" :icon="Check" circle  id="buttonAdd" native-type="submit"/>
 					</div>
 				</form>
 			</div>
@@ -133,7 +134,15 @@ export default {
 		Upload,
 		Refresh,
 		options: [],
-		optionIcon: [],
+		optionIcon: [
+					{label:'arm', value: 'arm.jpg'}, 
+					{label:'brain', value:"brain.png"}, 
+					{label:'hearth', value: "hearth.png"}, 
+					{label:'kidney', value: "kidney.jpg"},
+					{label:'leg', value: "leg.png"},
+					{label:'liver', value:'live.jpg'}, 
+					{label:'stomach', value: 'stomach.png'},
+					{label:'default', value: 'default.jpg'}],
 		value: "",
 		valueIcon: "",
 		organTab:[],
@@ -142,7 +151,7 @@ export default {
 		age: "",
 		categorie:"",
 		state: "",
-		icon: "",
+		icon: "default.jpg",
 		emailLocal:"",
 		nameE:"",
 		priceE:"",
@@ -158,21 +167,17 @@ export default {
 		Delete,
 		Refresh},
 	methods:{
-		async getImage(event){
-			let charCode;
-			let bytes = [];
-			let img = await event.target.files.item(0).text();
-			for(let i = 0; i < img.length; ++i){
-				charCode = img.charCodeAt(i);
-				bytes.push((charCode & 0xFF00)>>8);
-				bytes.push(charCode && 0xFF);
-			}
-			let bin = "";
-			bytes = new Uint8Array(bytes);
-			for(let i = 0; i < bytes.length; ++i){
-				bin += String.fromCharCode(bytes[i]);
-			}
-			console.log("oui: " + bin);
+		setOption(){
+
+		},
+
+		setIcon(currentValue){
+			this.icon = currentValue[0];
+		},
+
+		logout(){
+			localStorage.clear();
+			this.$router.push('/login');
 		},
 
 		async getCollection(){
@@ -180,20 +185,21 @@ export default {
 			let tab = await axios.get('http://localhost:3001/organ');
 			this.organTab = tab.data.map(item =>({name:item.name}));
 			for(let i=0;i<this.organTab.length;i++){
-				this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
+				this.options.push({label:this.organTab.at(i).name,value:this.organTab.at(i).name});
 			}
 		},	
 
 		async deleteItem(){
 			await axios.post('http://localhost:3001/organ/delete/'+this.value);
 			console.log(this.value);
-			this.getCollection();
+			await this.getCollection();
 			ElMessageBox.alert('Organ Deleted', 'Success', {
 				confirmButtonText: 'Ok',
 			});
 		},
 
 		async add(){
+			console.log(this.optionIcon);
 			if(this.name && this.price && this.state && this.age && this.categorie){
 				await axios.post('http://localhost:3001/organ/add', {
 					name: this.name,
@@ -215,7 +221,7 @@ export default {
 				this.categorie = "";
 				this.state = "";
 				this.icon = "";
-				this.getCollection();
+				await this.getCollection();
 			}
 			else {
 				ElMessageBox.alert('You need to fill up all the infos', 'Error', {confirmButtonText: 'Ok'});
@@ -240,7 +246,7 @@ export default {
 					age:this.ageE,
 					state:this.stateE
 				});
-				this.getCollection();
+				await this.getCollection();
 				this.nameE="";
 				this.ageE="";
 				this.priceE="";
@@ -260,12 +266,20 @@ export default {
 					{label:'stomach', value: 'stomach.png'},
 					{label:'default', value: 'default.jpg'}
 				];
+				
 				let tab = await axios.get('http://localhost:3001/organ');
 				this.organTab = tab.data.map(item =>({name:item.name}));
 				for(let i=0;i<this.organTab.length;i++){
-					this.options.push({name:this.organTab.at(i).name,label:this.organTab.at(i).name});
+					this.options[i] = {label: tab[i].name,value:tab[i].name};
 				}
+				
 				this.emailLocal = localStorage.getItem("email");
+			}
+		},
+
+		computed: {
+			lsName(){
+				return localStorage.getItem("name");
 			}
 		}
 }
