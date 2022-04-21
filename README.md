@@ -1,2 +1,7 @@
 # Organ-ized
-The best organ manager you've ever seen.
+A simple web application to simulate the management of organs
+
+# Contributors
+@Max-Brsd (Maxime Brossard)
+@Selinisp (Selin Ispir) 
+@loic-prn (Loïc Perrin)
